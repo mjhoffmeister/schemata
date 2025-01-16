@@ -1,2 +1,2 @@
 # schemata
-Demos for infrastructure-as-code (IaC)
+Demos for infrastructure-as-code (IaC).
