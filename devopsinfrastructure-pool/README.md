@@ -77,6 +77,13 @@ subscription_id                   = "<Enter your Azure subscription id>"
 The values for all other variables will be automatically generated per
 `locals.tf` if not specified.
 
+### Managed DevOps Pool Azure Verified Module
+
+An Azure Verified Module (AVM) is used to create the Managed DevOps Pool
+resource. It has many configuration options not demonstrated here. See the
+[AVM for Managed DevOps Pools](https://registry.terraform.io/modules/Azure/avm-res-devopsinfrastructure-pool/azurerm/latest)
+for more information.
+
 ## Execution
 
 To apply the Terraform configuration, follow these steps:
