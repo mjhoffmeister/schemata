@@ -1,0 +1,9 @@
+trigger:
+- main
+
+pool:
+  name: 'mdp-eastus-demo'
+
+steps:
+- script: echo Hello, World!
+  displayName: 'Run Hello World Script'
