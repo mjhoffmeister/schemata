@@ -60,7 +60,7 @@ variable "enable_network_creation" {
 variable "location" {
   description = "The location for the Managed DevOps Pool resources."
   type        = string
-  default     = "eastus"
+  default     = "eastus2"
   validation {
     condition     = contains(["eastus", "westus", "centralus", "eastus2", "westus2", "northcentralus", "southcentralus", "northeurope", "westeurope", "southeastasia", "eastasia", "japaneast", "japanwest", "australiaeast", "australiasoutheast", "brazilsouth", "southindia", "centralindia", "canadacentral", "canadaeast", "uksouth", "ukwest", "koreacentral", "koreasouth"], var.location)
     error_message = "The location must be one of the following: eastus, westus, centralus, eastus2, westus2, northcentralus, southcentralus, northeurope, westeurope, southeastasia, eastasia, japaneast, japanwest, australiaeast, australiasoutheast, brazilsouth, southindia, centralindia, canadacentral, canadaeast, uksouth, ukwest, koreacentral, koreasouth."
@@ -74,6 +74,26 @@ variable "managed_devops_pool_name" {
   validation {
     condition     = var.managed_devops_pool_name == null || try(length(var.managed_devops_pool_name) >= 3 && length(var.managed_devops_pool_name) <= 44 && can(regex("^[a-zA-Z0-9][a-zA-Z0-9.-]*$", var.managed_devops_pool_name)), true)
     error_message = "The name must be between 3 and 44 characters long, start with an alphanumeric character, and can only contain alphanumeric characters, hyphens, and dots."
+  }
+}
+
+variable "maximum_concurrency" {
+  description = "The maximum number of agents that can run concurrently. Must be between 1 and 10000. Defaults to 1."
+  type        = number
+  default     = 1
+  validation {
+    condition     = var.maximum_concurrency >= 1 && var.maximum_concurrency <= 10000
+    error_message = "The maximum concurrency must be between 1 and 10000."
+  }
+}
+
+variable "os_disk_type" {
+  description = "The type for the OS disk. Possible values are 'Standard', 'Premium' and 'StandardSSD'. defaults to 'Standard'."
+  type        = string
+  default     = "Standard"
+  validation {
+    condition     = contains(["Standard", "StandardSSD", "Premium"], var.os_disk_type)
+    error_message = "The OS disk type must be one of the following: Standard, StandardSSD, Premium."
   }
 }
 

@@ -19,7 +19,11 @@ terraform {
 }
 
 provider "azurerm" {
-  features {}
+  features {
+    resource_group {
+      prevent_deletion_if_contains_resources = false
+    }
+  }
 
   subscription_id = var.subscription_id
 }
@@ -90,12 +94,14 @@ resource "azurerm_subnet" "subnet" {
 
 # Use the Azure Verified Module (AVM) for Managed DevOps Pools
 module "managed_devops_pool" {
-  source                                   = "Azure/avm-res-devopsinfrastructure-pool/azurerm"
-  resource_group_name                      = azurerm_resource_group.rg.name
-  location                                 = var.location
-  name                                     = coalesce(var.managed_devops_pool_name, local.managed_devops_pool_name)
-  dev_center_project_resource_id           = azurerm_dev_center_project.dev_center_project.id
-  version_control_system_organization_name = coalesce(var.azure_devops_organization_name, local.azure_devops_organization_name)
-  version_control_system_project_names     = var.azure_devops_project_names
-  subnet_id                                = var.enable_network_creation ? azurerm_subnet.subnet[0].id : var.subnet_id
+  source                                      = "Azure/avm-res-devopsinfrastructure-pool/azurerm"
+  resource_group_name                         = azurerm_resource_group.rg.name
+  location                                    = var.location
+  name                                        = coalesce(var.managed_devops_pool_name, local.managed_devops_pool_name)
+  dev_center_project_resource_id              = azurerm_dev_center_project.dev_center_project.id
+  version_control_system_organization_name    = coalesce(var.azure_devops_organization_name, local.azure_devops_organization_name)
+  version_control_system_project_names        = var.azure_devops_project_names
+  subnet_id                                   = var.enable_network_creation ? azurerm_subnet.subnet[0].id : var.subnet_id
+  maximum_concurrency                         = var.maximum_concurrency
+  fabric_profile_os_disk_storage_account_type = var.os_disk_type
 }
